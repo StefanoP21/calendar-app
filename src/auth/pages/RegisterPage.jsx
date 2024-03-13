@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 export const RegisterPage = () => {
   return (
     <div className="container login-container">
       <div className="row justify-content-center">
-        <div className="col-md-6 login-form-2">
+        <div className="col-lg-8 login-form-2">
           <h3>Crear cuenta</h3>
           <form>
             <div className="form-group mb-2">
@@ -39,6 +40,10 @@ export const RegisterPage = () => {
               <input type="submit" className="btnSubmit" value="Registrarse" />
             </div>
           </form>
+
+          <Link to="/auth/login" style={{ color: '#fff' }}>
+            ¿Ya tienes una cuenta?
+          </Link>
         </div>
       </div>
     </div>

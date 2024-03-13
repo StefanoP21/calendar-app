@@ -1,10 +1,12 @@
 import './styles.css';
 
+import { Link } from 'react-router-dom';
+
 export const LoginPage = () => {
   return (
     <div className="container login-container">
       <div className="row justify-content-center">
-        <div className="col-md-6 login-form-1">
+        <div className="col-lg-8 login-form-1">
           <h3>Iniciar sesión</h3>
           <form>
             <div className="form-group mb-3">
@@ -25,6 +27,10 @@ export const LoginPage = () => {
               <input type="submit" className="btnSubmit" value="Ingresar" />
             </div>
           </form>
+
+          <div className="form-group">
+            <Link to="/auth/register">¿No tienes cuenta?</Link>
+          </div>
         </div>
       </div>
     </div>
