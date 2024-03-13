@@ -1,3 +1,10 @@
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router';
+
 export const CalendarApp = () => {
-  return <h2>CalendarApp</h2>;
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  );
 };
