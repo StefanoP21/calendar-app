@@ -12,8 +12,11 @@ import {
 } from '@chakra-ui/react';
 
 import { addHours } from 'date-fns';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es';
+
+registerLocale('es', es);
 
 const initialValues = {
   title: 'Some title',
@@ -58,10 +61,12 @@ export const CalendarModal = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize={'30px'}>Nuevo Evento</ModalHeader>
+          <ModalHeader className="mx-5 pt-5" fontSize={'30px'}>
+            Nuevo Evento
+          </ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody>
+          <ModalBody className="mx-5 pb-5">
             <form className="container">
               <div className="form-group mb-2">
                 <label>Fecha y hora de inicio</label> <br />
@@ -70,7 +75,10 @@ export const CalendarModal = () => {
                   className="form-control"
                   selected={formValues.start}
                   onChange={(event) => onDateChange(event, 'start')}
-                  dateFormat={'dd/MM/yyyy HH:mm'}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  locale="es"
+                  timeCaption="Hora"
                 ></DatePicker>
               </div>
 
@@ -81,7 +89,10 @@ export const CalendarModal = () => {
                   className="form-control"
                   selected={formValues.end}
                   onChange={(event) => onDateChange(event, 'end')}
-                  dateFormat={'dd/MM/yyyy HH:mm'}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  locale="es"
+                  timeCaption="Hora"
                 ></DatePicker>
               </div>
 
