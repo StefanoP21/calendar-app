@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import {
   Button,
-  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,8 +11,37 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { addHours } from 'date-fns';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+const initialValues = {
+  title: 'Some title',
+  notes: 'Some notes',
+  start: new Date(),
+  end: addHours(new Date(), 2),
+};
+
+const startDate = new Date();
+
 export const CalendarModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [formValues, setFormValues] = useState(initialValues);
+
+  const onInputChange = ({ target }) => {
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value,
+    });
+  };
+
+  const onDateChange = (event, changing) => {
+    setFormValues({
+      ...formValues,
+      [changing]: event,
+    });
+  };
 
   return (
     <>
@@ -25,6 +54,7 @@ export const CalendarModal = () => {
         onClose={onClose}
         isOpen={isOpen}
         isCentered
+        size={window.innerWidth <= 515 ? 'full' : 'lg'}
       >
         <ModalOverlay />
         <ModalContent>
@@ -34,13 +64,25 @@ export const CalendarModal = () => {
           <ModalBody>
             <form className="container">
               <div className="form-group mb-2">
-                <label>Fecha y hora de inicio</label>
-                <input className="form-control" placeholder="Fecha inicio" />
+                <label>Fecha y hora de inicio</label> <br />
+                <DatePicker
+                  minDate={startDate}
+                  className="form-control"
+                  selected={formValues.start}
+                  onChange={(event) => onDateChange(event, 'start')}
+                  dateFormat={'dd/MM/yyyy HH:mm'}
+                ></DatePicker>
               </div>
 
               <div className="form-group mb-2">
-                <label>Fecha y hora de fin</label>
-                <input className="form-control" placeholder="Fecha inicio" />
+                <label>Fecha y hora de fin</label> <br />
+                <DatePicker
+                  minDate={formValues.start}
+                  className="form-control"
+                  selected={formValues.end}
+                  onChange={(event) => onDateChange(event, 'end')}
+                  dateFormat={'dd/MM/yyyy HH:mm'}
+                ></DatePicker>
               </div>
 
               <hr />
@@ -53,6 +95,8 @@ export const CalendarModal = () => {
                   placeholder="Título del evento"
                   name="title"
                   autoComplete="off"
+                  value={formValues.title}
+                  onChange={onInputChange}
                 />
                 <small id="emailHelp" className="form-text text-muted">
                   Una descripción corta
@@ -66,23 +110,25 @@ export const CalendarModal = () => {
                   placeholder="Notas"
                   rows="5"
                   name="notes"
+                  value={formValues.notes}
+                  onChange={onInputChange}
                 ></textarea>
                 <small id="emailHelp" className="form-text text-muted">
                   Información adicional
                 </small>
               </div>
 
-              <button type="submit" className="btn btn-success btn-block">
-                <i className="far fa-save"></i>
-                <span> Guardar</span>
-              </button>
+              <Button type="submit" colorScheme="green">
+                <i className="far fa-save"></i> &nbsp; Guardar
+              </Button>
             </form>
+
+            <div className="container mt-2 mb-4">
+              <Button onClick={onClose} colorScheme="red">
+                <i className="fa-solid fa-ban"></i> &nbsp;Cancelar
+              </Button>
+            </div>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose} colorScheme="red">
-              Cancelar
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
