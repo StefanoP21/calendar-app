@@ -5,6 +5,7 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,16 +15,20 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
 import es from 'date-fns/locale/es';
 
 registerLocale('es', es);
 
 const initialValues = {
-  title: 'Some title',
-  notes: 'Some notes',
+  title: 'Algún título',
+  notes: 'Algunas notas',
   start: new Date(),
   end: addHours(new Date(), 2),
 };
@@ -34,6 +39,7 @@ export const CalendarModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [formValues, setFormValues] = useState(initialValues);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const onInputChange = ({ target }) => {
     setFormValues({
@@ -49,16 +55,21 @@ export const CalendarModal = () => {
     });
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
+  const isFormValid = () => {
+    const seconds = differenceInSeconds(formValues.end, formValues.start);
 
-    const difference = differenceInSeconds(formValues.end, formValues.start);
-
-    if (isNaN(difference) || difference < 0) {
-      return;
+    if (seconds < 0) {
+      return false;
     }
 
-    if (formValues.title.trim().length < 2) {
+    return true;
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setFormSubmitted(true);
+
+    if (!isFormValid()) {
       return;
     }
 
@@ -87,11 +98,19 @@ export const CalendarModal = () => {
 
           <ModalBody className="mx-5 pb-5">
             <form onSubmit={onSubmit} className="container">
-              <FormControl className="form-group mb-2" isRequired>
-                <FormLabel>Fecha y hora de inicio</FormLabel>
+              <FormControl
+                className="form-group mb-2"
+                isRequired
+                isInvalid={isFormValid() ? false : true}
+              >
+                <FormLabel htmlFor="startDate">
+                  Fecha y hora de inicio
+                </FormLabel>
                 <DatePicker
                   minDate={startDate}
-                  className="form-control"
+                  className={`form-control ${
+                    isFormValid() ? '' : 'is-invalid'
+                  }`}
                   selected={formValues.start}
                   onChange={(event) => onDateChange(event, 'start')}
                   showTimeSelect
@@ -99,11 +118,17 @@ export const CalendarModal = () => {
                   locale="es"
                   timeCaption="Hora"
                   required
+                  id="startDate"
                 ></DatePicker>
+                {isFormValid() ? null : (
+                  <FormErrorMessage>
+                    La fecha de inicio no puede ser mayor a la fecha de fin
+                  </FormErrorMessage>
+                )}
               </FormControl>
 
               <FormControl className="form-group mb-2" isRequired>
-                <FormLabel>Fecha y hora de fin</FormLabel>
+                <FormLabel htmlFor="endDate">Fecha y hora de fin</FormLabel>
                 <DatePicker
                   minDate={formValues.start}
                   className="form-control"
@@ -114,32 +139,34 @@ export const CalendarModal = () => {
                   locale="es"
                   timeCaption="Hora"
                   required
+                  id="endDate"
                 ></DatePicker>
               </FormControl>
 
               <FormControl className="form-group mb-2" isRequired>
-                <FormLabel>Título</FormLabel>
-                <input
+                <FormLabel htmlFor="title">Título</FormLabel>
+                <Input
                   type="text"
-                  className="form-control"
+                  className={`form-control `}
                   placeholder="Título del evento"
                   name="title"
                   autoComplete="off"
-                  required
+                  id="title"
                   value={formValues.title}
                   onChange={onInputChange}
                 />
-                <FormHelperText>Una descripción corta</FormHelperText>
+                <FormHelperText>Descripción del evento</FormHelperText>
               </FormControl>
 
               <FormControl className="form-group mb-2">
-                <FormLabel>Notas</FormLabel>
+                <FormLabel htmlFor="notes">Notas</FormLabel>
                 <textarea
                   type="text"
                   className="form-control"
                   placeholder="Notas"
                   rows="5"
                   name="notes"
+                  id="notes"
                   value={formValues.notes}
                   onChange={onInputChange}
                 ></textarea>
