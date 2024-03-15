@@ -19,6 +19,8 @@ import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { useUiStore } from '../../hooks';
+
 import es from 'date-fns/locale/es';
 
 registerLocale('es', es);
@@ -33,7 +35,8 @@ const initialValues = {
 const startDate = new Date();
 
 export const CalendarModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isDateModalOpen, openDateModal, closeDateModal } = useUiStore();
 
   const [formValues, setFormValues] = useState(initialValues);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -70,19 +73,19 @@ export const CalendarModal = () => {
       return;
     }
 
-    onClose();
+    closeDateModal();
   };
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="blue">
+      <Button onClick={() => openDateModal()} colorScheme="blue">
         Agregar evento
       </Button>
 
       <Modal
         closeOnOverlayClick={false}
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={() => closeDateModal()}
+        isOpen={isDateModalOpen}
         isCentered
         size={window.innerWidth <= 515 ? 'full' : 'lg'}
       >
@@ -176,7 +179,7 @@ export const CalendarModal = () => {
             </form>
 
             <div className="container mt-2 mb-4">
-              <Button onClick={onClose} colorScheme="red">
+              <Button onClick={() => closeDateModal()} colorScheme="red">
                 <i className="fa-solid fa-ban"></i> &nbsp;Cancelar
               </Button>
             </div>

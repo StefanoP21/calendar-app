@@ -7,6 +7,7 @@ import { NavBar, CalendarEvent, CalendarModal } from '../';
 
 import { calendarLocalizer, getMessages } from '../../helpers';
 import { Button } from '@chakra-ui/react';
+import { useUiStore } from '../../hooks';
 
 const events = [
   {
@@ -23,6 +24,7 @@ const events = [
 ];
 
 export const CalendarPage = () => {
+  const { openDateModal } = useUiStore();
   const [lastView, setLastView] = useState(
     localStorage.getItem('lastView') || 'month'
   );
@@ -41,7 +43,7 @@ export const CalendarPage = () => {
   };
 
   const onDoubleClick = (e) => {
-    console.log({ doubleClick: e });
+    openDateModal();
   };
 
   const onSelect = (e) => {
