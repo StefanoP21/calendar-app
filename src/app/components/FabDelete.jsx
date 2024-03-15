@@ -1,12 +1,24 @@
+import Swal from 'sweetalert2';
 import { useCalendarStore } from '../../hooks';
 
 export const FabDelete = () => {
-  const {} = useCalendarStore();
+  const { activeEvent, hasEventSelected, startDeletingEvent } =
+    useCalendarStore();
 
-  const handleClickEvent = () => {};
+  const handleDelete = () => {
+    if (activeEvent !== null) {
+      startDeletingEvent();
+      Swal.fire('Evento eliminado', '', 'success');
+    } else {
+      Swal.fire('Seleccione un evento', '', 'error');
+    }
+  };
 
   return (
-    <button onClick={handleClickEvent} className="btn btn-danger fab-danger ">
+    <button
+      onClick={handleDelete}
+      className={`btn btn-danger fab-danger ${!hasEventSelected && 'd-none'}`}
+    >
       <i className="fas fa-trash-alt"></i>
     </button>
   );
