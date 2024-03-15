@@ -21,7 +21,7 @@ const initialValues = {
 
 export const useCalendarModal = () => {
   const { isDateModalOpen, openDateModal, closeDateModal } = useUiStore();
-  const { activeEvent, setActiceEvent } = useCalendarStore();
+  const { activeEvent, setActiceEvent, startSavingEvent } = useCalendarStore();
 
   const [formValues, setFormValues] = useState(initialValues);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -60,6 +60,7 @@ export const useCalendarModal = () => {
     formValues,
     formSubmitted,
     setFormSubmitted,
+    startSavingEvent,
 
     //* Métodos
     onInputChange,

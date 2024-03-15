@@ -34,6 +34,7 @@ export const CalendarModal = () => {
     onInputChange,
     onDateChange,
     handleNewEvent,
+    startSavingEvent,
   } = useCalendarModal();
 
   const isFormValid = () => {
@@ -46,7 +47,7 @@ export const CalendarModal = () => {
     return true;
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
@@ -54,7 +55,9 @@ export const CalendarModal = () => {
       return;
     }
 
+    await startSavingEvent(formValues);
     closeDateModal();
+    setFormSubmitted(false);
   };
 
   return (

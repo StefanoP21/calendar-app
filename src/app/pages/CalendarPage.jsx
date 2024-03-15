@@ -11,8 +11,8 @@ export const CalendarPage = () => {
     lastView,
     eventStyleGetter,
     onDoubleClick,
-    setActiceEvent,
     onViewChange,
+    setActiceEvent,
   } = useCalendarStore();
 
   return (
