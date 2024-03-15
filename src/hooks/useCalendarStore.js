@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUiStore } from './useUiStore';
-import { onActiveEvent } from '../context';
+import { onSetActiveEvent } from '../context';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -27,14 +27,10 @@ export const useCalendarStore = () => {
 
   const onDoubleClick = (e) => {
     openDateModal();
-
-    dispatch(onActiveEvent(e));
   };
 
   const onSelect = (e) => {
-    console.log({ onSelect: e });
-
-    dispatch(onActiveEvent(e));
+    dispatch(onSetActiveEvent(e));
   };
 
   const onViewChange = (e) => {
@@ -45,6 +41,7 @@ export const useCalendarStore = () => {
   return {
     //* Propiedades
     events,
+    activeEvent,
     lastView,
 
     //* Métodos
