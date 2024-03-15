@@ -1,7 +1,7 @@
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { NavBar, CalendarEvent, CalendarModal } from '../';
+import { NavBar, CalendarEvent, CalendarModal, FabDelete } from '../';
 import { calendarLocalizer, getMessages } from '../../helpers';
 import { useCalendarStore } from '../../hooks';
 
@@ -36,6 +36,8 @@ export const CalendarPage = () => {
         onSelectEvent={setActiceEvent}
         onView={onViewChange}
       />
+
+      <FabDelete />
 
       <CalendarModal />
     </>
