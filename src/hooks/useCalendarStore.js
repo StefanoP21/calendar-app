@@ -29,7 +29,7 @@ export const useCalendarStore = () => {
     openDateModal();
   };
 
-  const onSelect = (e) => {
+  const setActiceEvent = (e) => {
     dispatch(onSetActiveEvent(e));
   };
 
@@ -47,7 +47,7 @@ export const useCalendarStore = () => {
     //* Métodos
     eventStyleGetter,
     onDoubleClick,
-    onSelect,
+    setActiceEvent,
     onViewChange,
   };
 };

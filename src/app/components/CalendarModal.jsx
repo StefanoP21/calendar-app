@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Button,
   FormControl,
@@ -12,55 +11,30 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from '@chakra-ui/react';
 
-import { addHours, differenceInSeconds } from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { useCalendarStore, useUiStore } from '../../hooks';
+import { useCalendarModal } from '../../hooks/';
 
 import es from 'date-fns/locale/es';
 
 registerLocale('es', es);
 
-const initialValues = {
-  title: '',
-  notes: '',
-  start: new Date(),
-  end: addHours(new Date(), 2),
-};
-
 const startDate = new Date();
 
 export const CalendarModal = () => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isDateModalOpen, openDateModal, closeDateModal } = useUiStore();
-  const { activeEvent } = useCalendarStore();
-
-  const [formValues, setFormValues] = useState(initialValues);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (activeEvent !== null) {
-      setFormValues({ ...activeEvent });
-    }
-  }, [activeEvent]);
-
-  const onInputChange = ({ target }) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
-
-  const onDateChange = (event, changing) => {
-    setFormValues({
-      ...formValues,
-      [changing]: event,
-    });
-  };
+  const {
+    isDateModalOpen,
+    closeDateModal,
+    formValues,
+    setFormSubmitted,
+    onInputChange,
+    onDateChange,
+    handleNewEvent,
+  } = useCalendarModal();
 
   const isFormValid = () => {
     const seconds = differenceInSeconds(formValues.end, formValues.start);
@@ -85,9 +59,9 @@ export const CalendarModal = () => {
 
   return (
     <>
-      <Button onClick={() => openDateModal()} colorScheme="blue">
-        Agregar evento
-      </Button>
+      <button onClick={handleNewEvent} className="btn btn-primary fab">
+        <i className="fas fa-plus"></i>
+      </button>
 
       <Modal
         closeOnOverlayClick={false}

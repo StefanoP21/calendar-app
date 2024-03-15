@@ -2,9 +2,7 @@ import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { NavBar, CalendarEvent, CalendarModal } from '../';
-
 import { calendarLocalizer, getMessages } from '../../helpers';
-
 import { useCalendarStore } from '../../hooks';
 
 export const CalendarPage = () => {
@@ -13,7 +11,7 @@ export const CalendarPage = () => {
     lastView,
     eventStyleGetter,
     onDoubleClick,
-    onSelect,
+    setActiceEvent,
     onViewChange,
   } = useCalendarStore();
 
@@ -35,7 +33,7 @@ export const CalendarPage = () => {
           event: CalendarEvent,
         }}
         onDoubleClickEvent={onDoubleClick}
-        onSelectEvent={onSelect}
+        onSelectEvent={setActiceEvent}
         onView={onViewChange}
       />
 
