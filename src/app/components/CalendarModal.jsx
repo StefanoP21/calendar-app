@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { addHours } from 'date-fns';
+import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
@@ -46,6 +49,22 @@ export const CalendarModal = () => {
     });
   };
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    const difference = differenceInSeconds(formValues.end, formValues.start);
+
+    if (isNaN(difference) || difference < 0) {
+      return;
+    }
+
+    if (formValues.title.trim().length < 2) {
+      return;
+    }
+
+    onClose();
+  };
+
   return (
     <>
       <Button onClick={onOpen} colorScheme="blue">
@@ -67,9 +86,9 @@ export const CalendarModal = () => {
           <ModalCloseButton />
 
           <ModalBody className="mx-5 pb-5">
-            <form className="container">
-              <div className="form-group mb-2">
-                <label>Fecha y hora de inicio</label> <br />
+            <form onSubmit={onSubmit} className="container">
+              <FormControl className="form-group mb-2" isRequired>
+                <FormLabel>Fecha y hora de inicio</FormLabel>
                 <DatePicker
                   minDate={startDate}
                   className="form-control"
@@ -79,11 +98,12 @@ export const CalendarModal = () => {
                   dateFormat="Pp"
                   locale="es"
                   timeCaption="Hora"
+                  required
                 ></DatePicker>
-              </div>
+              </FormControl>
 
-              <div className="form-group mb-2">
-                <label>Fecha y hora de fin</label> <br />
+              <FormControl className="form-group mb-2" isRequired>
+                <FormLabel>Fecha y hora de fin</FormLabel>
                 <DatePicker
                   minDate={formValues.start}
                   className="form-control"
@@ -93,28 +113,27 @@ export const CalendarModal = () => {
                   dateFormat="Pp"
                   locale="es"
                   timeCaption="Hora"
+                  required
                 ></DatePicker>
-              </div>
+              </FormControl>
 
-              <hr />
-
-              <div className="form-group mb-2">
-                <label>Título y notas</label>
+              <FormControl className="form-group mb-2" isRequired>
+                <FormLabel>Título</FormLabel>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Título del evento"
                   name="title"
                   autoComplete="off"
+                  required
                   value={formValues.title}
                   onChange={onInputChange}
                 />
-                <small id="emailHelp" className="form-text text-muted">
-                  Una descripción corta
-                </small>
-              </div>
+                <FormHelperText>Una descripción corta</FormHelperText>
+              </FormControl>
 
-              <div className="form-group mb-2">
+              <FormControl className="form-group mb-2">
+                <FormLabel>Notas</FormLabel>
                 <textarea
                   type="text"
                   className="form-control"
@@ -124,10 +143,8 @@ export const CalendarModal = () => {
                   value={formValues.notes}
                   onChange={onInputChange}
                 ></textarea>
-                <small id="emailHelp" className="form-text text-muted">
-                  Información adicional
-                </small>
-              </div>
+                <FormHelperText>Información adicional</FormHelperText>
+              </FormControl>
 
               <Button type="submit" colorScheme="green">
                 <i className="far fa-save"></i> &nbsp; Guardar
