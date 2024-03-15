@@ -15,9 +15,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
-
 import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
