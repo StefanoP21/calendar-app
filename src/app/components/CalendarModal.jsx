@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   FormControl,
@@ -19,15 +19,15 @@ import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { useUiStore } from '../../hooks';
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 import es from 'date-fns/locale/es';
 
 registerLocale('es', es);
 
 const initialValues = {
-  title: 'Algún título',
-  notes: 'Algunas notas',
+  title: '',
+  notes: '',
   start: new Date(),
   end: addHours(new Date(), 2),
 };
@@ -37,9 +37,16 @@ const startDate = new Date();
 export const CalendarModal = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { isDateModalOpen, openDateModal, closeDateModal } = useUiStore();
+  const { activeEvent } = useCalendarStore();
 
   const [formValues, setFormValues] = useState(initialValues);
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (activeEvent !== null) {
+      setFormValues({ ...activeEvent });
+    }
+  }, [activeEvent]);
 
   const onInputChange = ({ target }) => {
     setFormValues({
