@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUiStore } from './useUiStore';
-import { onAddNewEvent, onSetActiveEvent, onUpdateEvent } from '../context';
+import {
+  onAddNewEvent,
+  onDeleteEvent,
+  onSetActiveEvent,
+  onUpdateEvent,
+} from '../context';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -45,11 +50,16 @@ export const useCalendarStore = () => {
     }
   };
 
+  const startDeletingEvent = () => {
+    dispatch(onDeleteEvent());
+  };
+
   return {
     //* Propiedades
     events,
     activeEvent,
     lastView,
+    hasEventSelected: !!activeEvent,
 
     //* Métodos
     eventStyleGetter,
@@ -57,5 +67,6 @@ export const useCalendarStore = () => {
     onViewChange,
     setActiceEvent,
     startSavingEvent,
+    startDeletingEvent,
   };
 };
