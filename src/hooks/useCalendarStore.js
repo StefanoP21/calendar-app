@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUiStore } from './useUiStore';
-import { onSetActiveEvent } from '../context';
+import { onAddNewEvent, onSetActiveEvent } from '../context';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
-
   const { openDateModal } = useUiStore();
   const [lastView, setLastView] = useState(
     localStorage.getItem('lastView') || 'month'
@@ -29,13 +28,20 @@ export const useCalendarStore = () => {
     openDateModal();
   };
 
-  const setActiceEvent = (e) => {
-    dispatch(onSetActiveEvent(e));
-  };
-
   const onViewChange = (e) => {
     localStorage.setItem('lastView', e);
     setLastView(e);
+  };
+
+  const setActiceEvent = (calendarEvent) => {
+    dispatch(onSetActiveEvent(calendarEvent));
+  };
+
+  const startSavingEvent = async (calendarEvent) => {
+    if (calendarEvent._id) {
+    } else {
+      dispatch(onAddNewEvent({ _id: new Date().getTime(), ...calendarEvent }));
+    }
   };
 
   return {
@@ -47,7 +53,8 @@ export const useCalendarStore = () => {
     //* Métodos
     eventStyleGetter,
     onDoubleClick,
-    setActiceEvent,
     onViewChange,
+    setActiceEvent,
+    startSavingEvent,
   };
 };
