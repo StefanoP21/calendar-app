@@ -5,24 +5,24 @@ export const RegisterPage = () => {
   return (
     <div className="container login-container">
       <div className="row justify-content-center">
-        <div className="col-lg-8 login-form-2">
+        <div className="col-lg-8 login-form-1">
           <h3>Crear cuenta</h3>
           <form>
-            <div className="form-group mb-2">
+            <div className="form-group mb-3">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Nombre de usuario"
               />
             </div>
-            <div className="form-group mb-2">
+            <div className="form-group mb-3">
               <input
                 type="email"
                 className="form-control"
                 placeholder="Correo electrónico"
               />
             </div>
-            <div className="form-group mb-2">
+            <div className="form-group mb-3">
               <input
                 type="password"
                 className="form-control"
@@ -41,9 +41,7 @@ export const RegisterPage = () => {
             </div>
           </form>
 
-          <Link to="/auth/login" style={{ color: '#fff' }}>
-            ¿Ya tienes una cuenta?
-          </Link>
+          <Link to="/auth/login">¿Ya tienes una cuenta?</Link>
         </div>
       </div>
     </div>
