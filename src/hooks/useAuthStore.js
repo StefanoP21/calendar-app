@@ -14,8 +14,19 @@ export const useAuthStore = () => {
       localStorage.setItem('token-init-date', new Date().getTime());
 
       dispatch(onLogin({ name: data.name, uid: data.uid }));
-    } catch (error) {
-      dispatch(onLogout('Usuario o contraseña incorrectos'));
+    } catch ({ response }) {
+      let errorMessage = 'Error en el servidor';
+
+      if (response.data.msg) {
+        errorMessage = response.data.msg;
+      } else if (response.data.errors) {
+        const errorKeys = Object.keys(response.data.errors);
+        if (errorKeys.length > 0) {
+          errorMessage = response.data.errors[errorKeys[0]].msg;
+        }
+      }
+
+      dispatch(onLogout(errorMessage));
 
       setTimeout(() => {
         dispatch(clearError());
