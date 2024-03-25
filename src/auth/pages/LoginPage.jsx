@@ -1,6 +1,8 @@
-import './styles.css';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useAuthStore, useForm } from '../../hooks';
+import './styles.css';
 
 const loginFormFields = {
   email: '',
@@ -9,12 +11,18 @@ const loginFormFields = {
 
 export const LoginPage = () => {
   const { email, password, onInputChange } = useForm(loginFormFields);
-  const { startLogin } = useAuthStore();
+  const { startLogin, errorMessage } = useAuthStore();
 
   const onFormSubmit = (e) => {
     e.preventDefault();
     startLogin({ email, password });
   };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire('Error en la autenticación', errorMessage, 'error');
+    }
+  }, [errorMessage]);
 
   return (
     <div className="container login-container">
@@ -24,7 +32,7 @@ export const LoginPage = () => {
           <form onSubmit={onFormSubmit}>
             <div className="form-group mb-3">
               <input
-                type="text"
+                type="email"
                 className="form-control"
                 placeholder="Correo electrónico"
                 name="email"
@@ -48,7 +56,7 @@ export const LoginPage = () => {
           </form>
 
           <div className="form-group">
-            <Link to="/auth/register">¿No tienes cuenta?</Link>
+            <Link to="/auth/register">¿No tienes una cuenta?</Link>
           </div>
         </div>
       </div>
