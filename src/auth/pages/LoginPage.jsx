@@ -1,6 +1,6 @@
 import './styles.css';
 import { Link } from 'react-router-dom';
-import { useForm } from '../../hooks';
+import { useAuthStore, useForm } from '../../hooks';
 
 const loginFormFields = {
   email: '',
@@ -9,13 +9,11 @@ const loginFormFields = {
 
 export const LoginPage = () => {
   const { email, password, onInputChange } = useForm(loginFormFields);
+  const { startLogin } = useAuthStore();
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      email,
-      password,
-    });
+    startLogin({ email, password });
   };
 
   return (
