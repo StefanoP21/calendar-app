@@ -1,6 +1,8 @@
-import './styles.css';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from '../../hooks';
+import { useAuthStore, useForm } from '../../hooks';
+import './styles.css';
+import Swal from 'sweetalert2';
 
 const registerFormFields = {
   name: '',
@@ -12,16 +14,27 @@ const registerFormFields = {
 export const RegisterPage = () => {
   const { name, email, password, confirmPassword, onInputChange } =
     useForm(registerFormFields);
+  const { startRegister, errorMessage } = useAuthStore();
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      name,
-      email,
-      password,
-      confirmPassword,
-    });
+    if (password !== confirmPassword) {
+      Swal.fire(
+        'Error en el registro',
+        'Las contraseñas no coinciden',
+        'error'
+      );
+      return;
+    }
+
+    startRegister({ name, email, password });
   };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire('Error en la autenticación', errorMessage, 'error');
+    }
+  }, [errorMessage]);
 
   return (
     <div className="container login-container">
