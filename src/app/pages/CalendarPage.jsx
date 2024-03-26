@@ -19,15 +19,17 @@ export const CalendarPage = () => {
       event.user._id === user.uid || event.user.uid === user.uid;
 
     const style = {
-      backgroundColor: isMyEvent ? '#367CF7' : '#465660',
+      backgroundColor: isSelected
+        ? '#0b8c43'
+        : isMyEvent
+        ? '#367CF7'
+        : '#465660',
       borderRadius: '0px',
       opacity: 0.8,
       color: 'white',
     };
 
-    return {
-      style,
-    };
+    return { style };
   };
 
   const onDoubleClick = (e) => {
