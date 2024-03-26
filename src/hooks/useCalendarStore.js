@@ -24,19 +24,28 @@ export const useCalendarStore = () => {
         //* Update event
         await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
         dispatch(onUpdateEvent({ ...calendarEvent, user }));
+        Swal.fire('Evento actualizado', calendarEvent.title, 'success');
         return;
       }
       //* Add new event
       const { data } = await calendarApi.post('/events/new', calendarEvent);
       dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
-    } catch ({ response }) {
-      console.log({ response });
-      Swal.fire('Error la guardar', response.data?.msg, 'error');
+      Swal.fire('Evento creado', calendarEvent.title, 'success');
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error la guardar', error.response.data?.msg, 'error');
     }
   };
 
-  const startDeletingEvent = () => {
-    dispatch(onDeleteEvent());
+  const startDeletingEvent = async () => {
+    try {
+      await calendarApi.delete(`/events/${activeEvent.id}`);
+      dispatch(onDeleteEvent());
+      Swal.fire('Evento eliminado', activeEvent.title, 'success');
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error al eliminar', error.response.data?.msg, 'error');
+    }
   };
 
   const startLoadingEvents = async () => {
