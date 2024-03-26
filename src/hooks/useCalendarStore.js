@@ -7,6 +7,7 @@ import {
   onUpdateEvent,
 } from '../context';
 import { calendarApi } from '../api';
+import Swal from 'sweetalert2';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,19 @@ export const useCalendarStore = () => {
   };
 
   const startSavingEvent = async (calendarEvent) => {
-    //* Update event or add new event
-    if (calendarEvent._id) {
-      dispatch(onUpdateEvent({ ...calendarEvent }));
-    } else {
+    try {
+      if (calendarEvent.id) {
+        //* Update event
+        await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
+        dispatch(onUpdateEvent({ ...calendarEvent, user }));
+        return;
+      }
+      //* Add new event
       const { data } = await calendarApi.post('/events/new', calendarEvent);
       dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
+    } catch ({ response }) {
+      console.log({ response });
+      Swal.fire('Error la guardar', response.data?.msg, 'error');
     }
   };
 
