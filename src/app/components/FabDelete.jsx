@@ -8,9 +8,6 @@ export const FabDelete = () => {
   const handleDelete = () => {
     if (activeEvent !== null) {
       startDeletingEvent();
-      Swal.fire('Evento eliminado', '', 'success');
-    } else {
-      Swal.fire('Seleccione un evento', '', 'error');
     }
   };
 
