@@ -1,52 +1,29 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useUiStore } from './useUiStore';
 import {
   onAddNewEvent,
   onDeleteEvent,
   onSetActiveEvent,
   onUpdateEvent,
 } from '../context';
+import { calendarApi } from '../api';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
-  const { openDateModal } = useUiStore();
-  const [lastView, setLastView] = useState(
-    localStorage.getItem('lastView') || 'month'
-  );
-
-  const eventStyleGetter = (event, start, end, isSelected) => {
-    const style = {
-      backgroundColor: event.bgColor,
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'white',
-    };
-
-    return {
-      style,
-    };
-  };
-
-  const onDoubleClick = (e) => {
-    openDateModal();
-  };
-
-  const onViewChange = (e) => {
-    localStorage.setItem('lastView', e);
-    setLastView(e);
-  };
+  const { user } = useSelector((state) => state.auth);
 
   const setActiceEvent = (calendarEvent) => {
     dispatch(onSetActiveEvent(calendarEvent));
   };
 
   const startSavingEvent = async (calendarEvent) => {
+    //* Update event or add new event
     if (calendarEvent._id) {
       dispatch(onUpdateEvent({ ...calendarEvent }));
     } else {
-      dispatch(onAddNewEvent({ _id: new Date().getTime(), ...calendarEvent }));
+      const { data } = await calendarApi.post('/events/new', calendarEvent);
+      console.log({ data });
+      dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
     }
   };
 
@@ -58,13 +35,9 @@ export const useCalendarStore = () => {
     //* Propiedades
     events,
     activeEvent,
-    lastView,
     hasEventSelected: !!activeEvent,
 
     //* Métodos
-    eventStyleGetter,
-    onDoubleClick,
-    onViewChange,
     setActiceEvent,
     startSavingEvent,
     startDeletingEvent,
