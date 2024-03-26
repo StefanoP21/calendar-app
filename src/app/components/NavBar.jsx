@@ -1,4 +1,8 @@
+import { useAuthStore } from '../../hooks/useAuthStore';
+
 export const NavBar = () => {
+  const { startLogout, user } = useAuthStore();
+
   return (
     <div>
       <nav
@@ -8,10 +12,14 @@ export const NavBar = () => {
         <div className="container-fluid">
           <span className="navbar-brand">
             <i className="fas fa-calendar-alt" />
-            &nbsp; {`Calendario M & S`}
+            &nbsp; {user.name}
           </span>
 
-          <button className="btn btn-outline-danger" type="submit">
+          <button
+            onClick={startLogout}
+            className="btn btn-outline-danger"
+            type="submit"
+          >
             <i className="fas fa-sign-out-alt" />
             &nbsp; Salir
           </button>
