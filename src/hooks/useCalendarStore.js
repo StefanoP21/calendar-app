@@ -22,13 +22,27 @@ export const useCalendarStore = () => {
       dispatch(onUpdateEvent({ ...calendarEvent }));
     } else {
       const { data } = await calendarApi.post('/events/new', calendarEvent);
-      console.log({ data });
       dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
     }
   };
 
   const startDeletingEvent = () => {
     dispatch(onDeleteEvent());
+  };
+
+  const startLoadingEvents = async () => {
+    try {
+      const { data } = await calendarApi.get('/events');
+      console.log({ data });
+      const events = data.events.map((event) => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      }));
+      console.log({ events });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {
@@ -41,5 +55,6 @@ export const useCalendarStore = () => {
     setActiceEvent,
     startSavingEvent,
     startDeletingEvent,
+    startLoadingEvents,
   };
 };
