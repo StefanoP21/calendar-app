@@ -1,19 +1,39 @@
+import { useState } from 'react';
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { NavBar, CalendarEvent, CalendarModal, FabDelete } from '../';
 import { calendarLocalizer, getMessages } from '../../helpers';
-import { useCalendarStore } from '../../hooks';
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 export const CalendarPage = () => {
-  const {
-    events,
-    lastView,
-    eventStyleGetter,
-    onDoubleClick,
-    onViewChange,
-    setActiceEvent,
-  } = useCalendarStore();
+  const { events, setActiceEvent } = useCalendarStore();
+  const { openDateModal } = useUiStore();
+  const [lastView, setLastView] = useState(
+    localStorage.getItem('lastView') || 'month'
+  );
+
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    const style = {
+      backgroundColor: event.bgColor,
+      borderRadius: '0px',
+      opacity: 0.8,
+      color: 'white',
+    };
+
+    return {
+      style,
+    };
+  };
+
+  const onDoubleClick = (e) => {
+    openDateModal();
+  };
+
+  const onViewChange = (e) => {
+    localStorage.setItem('lastView', e);
+    setLastView(e);
+  };
 
   return (
     <>
