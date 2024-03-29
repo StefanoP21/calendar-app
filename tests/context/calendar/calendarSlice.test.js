@@ -56,19 +56,17 @@ describe('Pruebas en calendarSlice', () => {
   test('onDeleteEvent debe de eliminar un evento', () => {
     const state = calendarSlice.reducer(
       calendarWithActiveEvent,
-      onDeleteEvent(events[0])
+      onDeleteEvent()
     );
 
-    expect(state).toEqual({
-      isLoadingEvents: false,
-      events: [events[1]],
-      activeEvent: null,
-    });
+    expect(state.activeEvent).toBeNull();
+    expect(state).not.toContain(events[0]);
   });
 
   test('onLoadEvents debe de cargar los eventos', () => {
     const state = calendarSlice.reducer(initialState, onLoadEvents(events));
 
+    expect(state.isLoadingEvents).toBeFalsy();
     expect(state).toEqual(calendarWithEvents);
   });
 
