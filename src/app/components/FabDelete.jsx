@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2';
 import { useCalendarStore } from '../../hooks';
 
 export const FabDelete = () => {
