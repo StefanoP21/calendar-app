@@ -1,5 +1,3 @@
-import { testUserCredentials } from './testUser';
-
 export const initialState = {
   status: 'checking',
   user: {},
