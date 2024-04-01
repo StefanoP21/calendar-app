@@ -5,8 +5,8 @@ import { useAuthStore, useForm } from '../../hooks';
 import './styles.css';
 
 const loginFormFields = {
-  email: '',
-  password: '',
+  email: 'stefano@gmail.com',
+  password: '123456',
 };
 
 export const LoginPage = () => {
@@ -35,6 +35,7 @@ export const LoginPage = () => {
               className="form-control"
               placeholder="Correo electrónico"
               name="email"
+              required
               value={email}
               onChange={onInputChange}
             />
@@ -45,6 +46,7 @@ export const LoginPage = () => {
               className="form-control"
               placeholder="Contraseña"
               name="password"
+              required
               value={password}
               onChange={onInputChange}
             />

@@ -47,6 +47,7 @@ export const RegisterPage = () => {
               className="form-control"
               placeholder="Nombre de usuario"
               name="name"
+              required
               value={name}
               onChange={onInputChange}
             />
@@ -57,6 +58,7 @@ export const RegisterPage = () => {
               className="form-control"
               placeholder="Correo electrónico"
               name="email"
+              required
               value={email}
               onChange={onInputChange}
             />
@@ -67,6 +69,7 @@ export const RegisterPage = () => {
               className="form-control"
               placeholder="Contraseña"
               name="password"
+              required
               value={password}
               onChange={onInputChange}
             />
@@ -77,6 +80,7 @@ export const RegisterPage = () => {
               className="form-control"
               placeholder="Repita la contraseña"
               name="confirmPassword"
+              required
               value={confirmPassword}
               onChange={onInputChange}
             />
