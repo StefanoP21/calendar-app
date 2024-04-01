@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas en <AppRouter /> debe de mostrar la pantalla de login 1`] = `
+<div>
+  <div
+    class="container login-container"
+  >
+    <div
+      class="col-lg-8 login-form-1"
+    >
+      <h3>
+        Iniciar sesión
+      </h3>
+      <form>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="email"
+            placeholder="Correo electrónico"
+            type="email"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="password"
+            placeholder="Contraseña"
+            type="password"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="btnSubmit"
+            type="submit"
+            value="Ingresar"
+          />
+        </div>
+      </form>
+      <div
+        class="form-group"
+      >
+        <a
+          href="/auth/register"
+        >
+          ¿No tienes una cuenta?
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Pruebas en <AppRouter /> debe de mostrar la pantalla de registro 1`] = `
+<div>
+  <div
+    class="container login-container"
+  >
+    <div
+      class="col-lg-8 login-form-1"
+    >
+      <h3>
+        Crear cuenta
+      </h3>
+      <form>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="name"
+            placeholder="Nombre de usuario"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="email"
+            placeholder="Correo electrónico"
+            type="email"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="password"
+            placeholder="Contraseña"
+            type="password"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="form-control"
+            name="confirmPassword"
+            placeholder="Repita la contraseña"
+            type="password"
+            value=""
+          />
+        </div>
+        <div
+          class="form-group mb-3"
+        >
+          <input
+            class="btnSubmit"
+            type="submit"
+            value="Registrarse"
+          />
+        </div>
+      </form>
+      <a
+        href="/auth/login"
+      >
+        ¿Ya tienes una cuenta?
+      </a>
+    </div>
+  </div>
+</div>
+`;
