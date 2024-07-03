@@ -29,7 +29,13 @@ export const useCalendarStore = () => {
       }
       //* Add new event
       const { data } = await calendarApi.post('/events/new', calendarEvent);
-      dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
+      dispatch(
+        onAddNewEvent({
+          ...calendarEvent,
+          id: data.event.id,
+          user: { _id: user.uid, name: user.name },
+        })
+      );
       Swal.fire('Evento creado', calendarEvent.title, 'success');
     } catch (error) {
       console.log(error);

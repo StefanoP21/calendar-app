@@ -4,7 +4,7 @@ import { addHours } from 'date-fns';
 import { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { useCalendarStore, useUiStore } from './';
+import { useAuthStore, useCalendarStore, useUiStore } from './';
 
 import es from 'date-fns/locale/es';
 
@@ -16,10 +16,11 @@ const initialValues = {
   start: new Date(),
   end: addHours(new Date(), 2),
   bgColor: '#0073ff',
-  user: { uid: '123', name: 'Stefano' },
+  user: { _id: '123', name: 'Stefano' },
 };
 
 export const useCalendarModal = () => {
+  const { user } = useAuthStore();
   const { isDateModalOpen, openDateModal, closeDateModal } = useUiStore();
   const { activeEvent, setActiceEvent, startSavingEvent } = useCalendarStore();
 
@@ -47,7 +48,10 @@ export const useCalendarModal = () => {
   };
 
   const handleNewEvent = () => {
-    setActiceEvent(initialValues);
+    setActiceEvent({
+      ...initialValues,
+      user: { _id: user.uid, name: user.name },
+    });
 
     openDateModal();
   };
