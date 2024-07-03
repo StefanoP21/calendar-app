@@ -16,7 +16,7 @@ const initialValues = {
   start: new Date(),
   end: addHours(new Date(), 2),
   bgColor: '#0073ff',
-  user: { _id: '123', name: 'Stefano' },
+  user: { uid: '123', name: 'Stefano' },
 };
 
 export const useCalendarModal = () => {
